@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/tpapp/MCMC_LR_Tests.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/tpapp/MCMC_LR_Tests.jl?branch=master)
 [![codecov.io](http://codecov.io/github/tpapp/MCMC_LR_Tests.jl/coverage.svg?branch=master)](http://codecov.io/github/tpapp/MCMC_LR_Tests.jl?branch=master)
 
-Compare the mean and variance of a MCMC sample to a known value using a likelihood ratio test.
+Compare the mean and covariance of a MCMC sample to a known value using a likelihood ratio test.
 
 For unit testing MCMC software. See the docstrings of the exported functions and the unit tests.
 
