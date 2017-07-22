@@ -27,9 +27,9 @@ git:
 
 ## uncomment the following lines to override the default test script
 script:
-  - julia -e 'Pkg.clone("https://github.com/tpapp/MCMCDiagnostics.jl.git"); Pkg.clone(pwd()); Pkg.build("MCMC_mean_LR_test"); Pkg.test("MCMC_mean_LR_test"; coverage=true)'
+  - julia -e 'Pkg.clone("https://github.com/tpapp/MCMCDiagnostics.jl.git"); Pkg.clone(pwd()); Pkg.build("MCMC_LR_Tests"); Pkg.test("MCMC_LR_Tests"; coverage=true)'
 after_success:
   # push coverage results to Coveralls
-  - julia -e 'cd(Pkg.dir("MCMC_mean_LR_test")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
+  - julia -e 'cd(Pkg.dir("MCMC_LR_Tests")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
   # push coverage results to Codecov
-  - julia -e 'cd(Pkg.dir("MCMC_mean_LR_test")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - julia -e 'cd(Pkg.dir("MCMC_LR_Tests")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'

@@ -1,10 +1,10 @@
-module MCMC_mean_LR_test
+module MCMC_LR_Tests
 
 using ArgCheck
 using Distributions
 using MCMCDiagnostics
 
-export mean_LR_statistic, mean_LR_distribution
+export mean_LR_statistic, mean_LR_distribution, cov_LR_statistic, cov_LR_distribution
 
 """
     column_ρs(X)
@@ -51,6 +51,29 @@ Return a distribution for [`mean_LR_statistic`](@ref) under the null hypothesis 
 
 Use of a Kolmogorov-Smirnov test is recommended, note however that the distribution is slightly different because of the ESS rescaling, so be conservative with the p-values in unit tests.
 """
-mean_LR_distribution(N, K) = FDist(K, N-K)
+mean_LR_distribution(N::Int, K::Int) = FDist(K, N-K)
+
+"""
+    cov_LR_statistic(Σ, X)
+
+Likelihood ratio statistic for comparing the covariance of `X` (with observations in rows) to `Σ`. See [`cov_LR_distribution`](@ref).
+"""
+function cov_LR_statistic(Σ::AbstractMatrix, X::AbstractMatrix)
+    N, K = size(X)
+    @argcheck size(Σ) == (K, K)
+    U = chol(Symmetric(Σ))
+    S = cov(X / U, 1)
+    L = trace(S) - logdet(S) - K
+    N*L
+end
+
+"""
+   cov_LR_distribution(N, K)
+
+Distribution for the test statistic of [`cov_LR_statistic`](@ref), where the data has dimension `K` and `N` observations.
+
+Note that this is an asymptotic statistic, so it has better coverage when `N ≫ K`.
+"""
+cov_LR_distribution(N::Int, K::Int) = Chisq(K*(K+1)/2)
 
 end # module
