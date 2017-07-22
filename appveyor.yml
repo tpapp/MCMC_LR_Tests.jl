@@ -41,7 +41,7 @@ build_script:
 # Need to convert from shallow to complete for Pkg.clone to work
   - IF EXIST .git\shallow (git fetch --unshallow)
   - C:\projects\julia\bin\julia -e "versioninfo();
-      Pkg.clone(pwd(), \"MCMCtest\"); Pkg.build(\"MCMCtest\")"
+      Pkg.clone(pwd(), \"MCMC_mean_LR_test\"); Pkg.build(\"MCMC_mean_LR_test\")"
 
 test_script:
-  - C:\projects\julia\bin\julia -e "Pkg.test(\"MCMCtest\")"
+  - C:\projects\julia\bin\julia -e "Pkg.test(\"MCMC_mean_LR_test\")"
