@@ -24,6 +24,15 @@ end
     @test quantile([cov_LR_pvalue(Σ, rand(dist, N)') for _ in 1:100], 0.1) ≥ 0.1
 end
 
+@testset "IID normal cov 2" begin
+    Σ = [6.366588528827408 3.25842202827805 0.9729856844746686 3.858746597584623;
+         3.25842202827805 3.938997699450515 -2.809133292920283 1.5566006096285196;
+         0.9729856844746686 -2.809133292920283 7.344095307429978 -1.2388040483400584;
+         3.858746597584623 1.5566006096285196 -1.2388040483400584 9.227552651298026]
+    dist = MvNormal(zeros(4), Σ)
+    @test quantile([cov_LR_pvalue(Σ, rand(dist, N)') for _ in 1:100], 0.1) ≥ 0.1
+end
+
 "Simulate `N` draws of a vector AR(1) process `x = A x + ϵ`, where `ϵ ∼ MvNormal(0, Σ)`."
 function simulate_VAR1(A, Σ, N)
     K = Base.LinAlg.checksquare(Σ)
