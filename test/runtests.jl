@@ -9,9 +9,8 @@ srand(UInt32[0x7f712df6, 0xc9c492e6, 0x4935b672, 0x946d94f9])
 @testset "IID normal mean" begin
     N = 10000
     dist = MvNormal(Float64[1, -1, 2], [1,2,3])
-    LR_dist = mean_LR_distribution(N, 3)
-    ss = [mean_LR_statistic(mean(dist), rand(dist, N)') for _ in 1:100]
-    t = ExactOneSampleKSTest(ss, mean_LR_distribution(N, 3))
+    ps = [mean_LR_pvalue(mean(dist), rand(dist, N)') for _ in 1:100]
+    t = ExactOneSampleKSTest(ps, Uniform(0,1))
     @test pvalue(t) > 0.05
 end
 
@@ -22,9 +21,7 @@ end
          0.0 0.0 0.7]
     Σ = A'*A
     dist = MvNormal(Float64[1, -1, 2], Σ)
-    LR_dist = cov_LR_distribution(N, 3)
-    ss_max = quantile([cov_LR_statistic(Σ, rand(dist, N)') for _ in 1:100], 0.9)
-    @test ss_max ≤ quantile(LR_dist, 0.90)
+    @test quantile([cov_LR_pvalue(Σ, rand(dist, N)') for _ in 1:100], 0.1) ≥ 0.1
 end
 
 "Simulate `N` draws of a vector AR(1) process `x = A x + ϵ`, where `ϵ ∼ MvNormal(0, Σ)`."
@@ -49,6 +46,6 @@ end
     Σ = A'*A
     μ = zeros(3)
     N = 10000
-    ss_max = quantile([mean_LR_statistic(μ, simulate_VAR1(A, Σ, N)) for _ in 1:100], 0.9)
-    @test ss_max ≤ quantile(mean_LR_distribution(N, 3), 0.90)
+    p10 = quantile([mean_LR_pvalue(μ, simulate_VAR1(A, Σ, N)) for _ in 1:100], 0.1)
+    @test p10 ≥ 0.10
 end

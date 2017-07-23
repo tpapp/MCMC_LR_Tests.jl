@@ -7,7 +7,7 @@
 
 Compare the mean and covariance of a MCMC sample to a known value using a likelihood ratio test.
 
-For unit testing MCMC software. See the docstrings of the exported functions and the unit tests.
+For unit testing MCMC software. See the docstrings of the exported functions `mean_LR_pvalue` and `cov_LR_pvalue`, and the unit tests.
 
 ## References
 
